@@ -25,7 +25,19 @@ export function Modal($rootScope, $uibModal) {
 
   // Public API here
   return {
-
+    alert: {
+      spinner() {
+        var modal;
+        modal = openModal({
+          modal: {
+            dismissable: false,
+            title: 'Loading Data',
+            html: 'Please Wait Data Loading...'
+          },
+        });
+        return modal;
+      }
+    },
     /* Confirmation modals */
     confirm: {
 

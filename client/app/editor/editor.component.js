@@ -5,31 +5,49 @@ const templateName = 'annotationTemplate';
 
 export class EditorController {
   currentNumber = 1;
-  name = null;
-  image = null;
   imageHover = false;
-  definitions = [];
   showSpinner = false;
   canvas = null;
   ctx = null;
   holder = null;
 
+  model = {
+    image: null,
+    name: null,
+    definitions: [],
+    _id: null
+  }
+
   hasImage() {
-    return !this.image;
+    return !this.model.image;
   }
 
   /*@ngInject*/
-  constructor($http, $timeout, $state) {
+  constructor($http, $timeout, $state, Modal) {
     this.$http = $http;
     this.$state = $state;
     this.$timeout = $timeout;
+    this.modal = Modal;
   }
 
   $onInit() {
-    this.definitions = [];
-    this.$http.get('/api/screen/')
-      .then(response => {
-      });
+    if (this.$state.params.screenName) {
+      var modal = this.modal.alert.spinner();
+      this.$http.get(`/api/screen/${this.$state.params.screenName}`)
+        .then(response => {
+          if (!response.data) {
+            console.error(`Sorry I cannot find ${this.$state.params.screenName}`);
+            return;
+          }
+          this.model = response.data;
+          this.currentNumber = (this.model.definitions || []).length + 1;
+          modal.close();
+        })
+        .then(null, error => {
+          console.error(error);
+          modal.close();
+        });
+    }
   }
 
   drop(event, dropZone, dragElement, data) {
@@ -44,19 +62,19 @@ export class EditorController {
       obj = {
         number: this.currentNumber++
       };
-      this.definitions.push(obj);
+      this.model.definitions.push(obj);
     }
     obj.left = `${event.clientX + parseInt(offset[0], 10)}px`;
     obj.top = `${event.clientY + parseInt(offset[1], 10)}px`;
   }
 
   loadImage(file) {
-    this.name = file.name;
+    this.model.name = file.name;
     var that = this;
     var reader = new FileReader();
     reader.onload = event => {
       this.$timeout(() => {
-        that.image = event.target.result;
+        that.model.image = event.target.result;
         this.showSpinner = false;
       }, 1);
     };
@@ -65,7 +83,17 @@ export class EditorController {
   }
 
   save() {
-
+    var modal = this.modal.alert.spinner();
+    this.$http.post('/api/screen/', this.model)
+      .then(response => {
+        this.model = response.data;
+        this.$state.go('editor.id', {screenName: this.model.name});
+        modal.close();
+      })
+      .then(null, error => {
+        console.error(error);
+        modal.close();
+      });
   }
 }
 

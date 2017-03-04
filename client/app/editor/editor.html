@@ -1,7 +1,7 @@
 <div class="container-fluid" style="height: 864px;">
   <div class="row" ng-hide="$ctrl.hasImage()" >
     <div class="col-md-6">
-      <input class="form-control" placeholder="Enter Screen Name" type="text" ng-model="$ctrl.name">
+      <input class="form-control" placeholder="Enter Screen Name" type="text" ng-model="$ctrl.model.name">
     </div>
     <div class="col-md-6">
       <button class="btn btn-primary btn-block" ng-click="$ctrl.save()">Save</button>
@@ -17,14 +17,17 @@
           - or - <br/>
           Tap to upload <input type="file" fileread="$ctrl.loadImage(file)" style="display: inline; width: 76px;">
         </div>
-        <img ng-hide="$ctrl.hasImage()" ng-src="{{$ctrl.image}}" style="width: 100%;" />
+        <img ng-hide="$ctrl.hasImage()" ng-src="{{$ctrl.model.image}}" style="width: 100%;" />
         <div class="spinner" ng-show="$ctrl.showSpinner">
           <span class="glyphicon glyphicon-ban-circle"></span>
+        </div>
+        <div style="position: absolute; top: -35px; left: 40%;">
+          {{$ctrl.model._id}}
         </div>
         <div id="annotationTemplate" class="annotation" html5-drag model="$ctrl">
           {{$ctrl.currentNumber}}
         </div>
-        <div class="annotation" ng-repeat="def in $ctrl.definitions" style="left: {{def.left}}; top: {{def.top}};" html5-drag model="def">
+        <div class="annotation" ng-repeat="def in $ctrl.model.definitions" style="left: {{def.left}}; top: {{def.top}};" html5-drag model="def">
           {{def.number}}
         </div>
       </div>
@@ -41,7 +44,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="def in $ctrl.definitions">
+            <tr ng-repeat="def in $ctrl.model.definitions">
               <th scope="row"><label class="form-control">{{def.number}}</label></th>
               <td><input class="form-control" type="text" placeholder="type" ng-model="def.type"></td>
               <td><input class="form-control" type="text" placeholder="name" ng-model="def.name"></td>

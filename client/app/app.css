@@ -79,7 +79,7 @@ img {
 
 #annotationTemplate {
   top: -50px; 
-  left: 50%;
+  left: 95%;
 }
 
 .annotation {
@@ -90,6 +90,10 @@ img {
   line-height: 28px;
   border: 1px solid #ccc;
   background-color: black;
+}
+
+.modal-content {
+  color: #333;
 }
 
 .spinner {
