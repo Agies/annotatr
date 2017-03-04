@@ -1,27 +1,27 @@
-<div class="container-fluid">
+<div class="container-fluid" style="height: 864px;">
   <div class="row">
     <div class="col-md-12">
       <button class="btn btn-block btn-primary" ng-hide="$ctrl.hasImage()">Save</button>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6" style="position: relative">
+    <div class="col-md-6 col-lg-4" style="position: relative">
       <h2>Screen</h2>
       <div id="holder" ng-class="{empty: $ctrl.hasImage(), hover: $ctrl.imageHover}" html5-drop on-drag-enter="$ctrl.imageHover = true"
         on-drag-leave="$ctrl.imageHover = false" ng-mouseleave="$ctrl.imageHover = false" on-drop="$ctrl.drop(event, dropZone, dragElement, data)">
         <img ng-src="{{$ctrl.image}}" style="width: 100%;" />
         <div class="spinner" ng-show="$ctrl.showSpinner">
-            <span class="glyphicon glyphicon-ban-circle"></span>
+          <span class="glyphicon glyphicon-ban-circle"></span>
+        </div>
+        <div id="annotationTemplate" class="annotation" html5-drag model="$ctrl">
+          {{$ctrl.currentNumber}}
+        </div>
+        <div class="annotation" ng-repeat="def in $ctrl.definitions" style="left: {{def.left}}; top: {{def.top}};" html5-drag model="def">
+          {{def.number}}
         </div>
       </div>
-      <div id="annotationTemplate" class="annotation" html5-drag model="$ctrl">
-        {{$ctrl.currentNumber}}
-      </div>
-      <div class="annotation" ng-repeat="def in $ctrl.definitions" style="left: {{def.left}}; top: {{def.top}};" html5-drag model="def">
-        {{def.number}}
-      </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 col-lg-8">
       <h2>Definitions</h2>
       <form>
         <table class="table table-hover">

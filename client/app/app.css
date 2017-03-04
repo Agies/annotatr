@@ -63,6 +63,12 @@ img {
   user-select:none;
 }
 
+#holder {
+  position: relative;
+  width: 450px;
+  height: 800px;
+}
+
 #holder.empty {
   border: 10px dashed #ccc;
   min-height: 500px;
@@ -72,8 +78,8 @@ img {
 }
 
 #annotationTemplate {
-  top: 20px; 
-  right: 5%;
+  top: -50px; 
+  left: 50%;
 }
 
 .annotation {

@@ -8,14 +8,18 @@ export class EditorController {
   imageHover = false;
   definitions = [];
   showSpinner = false;
+  canvas = null;
+  ctx = null;
+  holder = null;
 
   hasImage() {
     return !this.image;
   }
 
   /*@ngInject*/
-  constructor($http) {
+  constructor($http, $timeout) {
     this.$http = $http;
+    this.$timeout = $timeout;
   }
 
   $onInit() {
@@ -46,8 +50,13 @@ export class EditorController {
     var that = this;
     var reader = new FileReader();
     reader.onload = event => {
-      that.image = event.target.result;
-      this.showSpinner = false;
+      this.$timeout(() => {
+        that.image = event.target.result;
+        this.showSpinner = false;
+        this.$timeout(() => {
+          this.redraw();
+        }, 1);
+      }, 1);
     };
     reader.readAsDataURL(file);
     this.showSpinner = true;
