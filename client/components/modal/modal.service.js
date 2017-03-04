@@ -2,6 +2,7 @@
 
 import angular from 'angular';
 
+/*@ngInject*/
 export function Modal($rootScope, $uibModal) {
   /**
    * Opens a modal
@@ -17,7 +18,8 @@ export function Modal($rootScope, $uibModal) {
     return $uibModal.open({
       template: require('./modal.html'),
       windowClass: modalClass,
-      scope: modalScope
+      scope: modalScope,
+      backdrop: 'static'
     });
   }
 

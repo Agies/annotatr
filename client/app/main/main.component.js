@@ -2,15 +2,16 @@ import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import routing from './main.routes';
 export class MainController {
-
+  screens = null;
   /*@ngInject*/
   constructor($http) {
     this.$http = $http;
   }
 
   $onInit() {
-    this.$http.get('/api/things')
+    this.$http.get('/api/screen')
       .then(response => {
+        this.screens = response.data;
       });
   }
 }

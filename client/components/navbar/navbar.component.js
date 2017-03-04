@@ -10,7 +10,7 @@ export class NavbarComponent {
   },
   {
     title: 'New',
-    state: 'editor'
+    state: 'editor.new'
   }];
   isCollapsed = true;
 

@@ -2,8 +2,10 @@ import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import routing from './editor.routes';
 const templateName = 'annotationTemplate';
+
 export class EditorController {
   currentNumber = 1;
+  name = null;
   image = null;
   imageHover = false;
   definitions = [];
@@ -17,13 +19,15 @@ export class EditorController {
   }
 
   /*@ngInject*/
-  constructor($http, $timeout) {
+  constructor($http, $timeout, $state) {
     this.$http = $http;
+    this.$state = $state;
     this.$timeout = $timeout;
   }
 
   $onInit() {
-    this.$http.get('/api/things')
+    this.definitions = [];
+    this.$http.get('/api/screen/')
       .then(response => {
       });
   }
@@ -47,19 +51,21 @@ export class EditorController {
   }
 
   loadImage(file) {
+    this.name = file.name;
     var that = this;
     var reader = new FileReader();
     reader.onload = event => {
       this.$timeout(() => {
         that.image = event.target.result;
         this.showSpinner = false;
-        this.$timeout(() => {
-          this.redraw();
-        }, 1);
       }, 1);
     };
     reader.readAsDataURL(file);
     this.showSpinner = true;
+  }
+
+  save() {
+
   }
 }
 

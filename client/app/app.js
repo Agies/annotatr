@@ -17,6 +17,7 @@ import {
 
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
+import modal from '../components/modal/modal.service';
 import main from './main/main.component';
 import editor from './editor/editor.component';
 import constants from './app.constants';
@@ -136,8 +137,22 @@ angular.module('html5DragDrop').directive('html5Drop', function() {
 });
 
 angular.module('annotatrApp', ['html5DragDrop', ngCookies, ngResource, ngSanitize, uiRouter, uiBootstrap, navbar,
-    footer, main, editor, constants, util
+    footer, main, modal, editor, constants, util
   ])
+  .directive('fileread', [() => {
+    return {
+      scope: {
+        fileread: '&'
+      },
+      link: (scope, element, attributes) => {
+        element.bind('change', changeEvent => {
+          scope.$apply(() => {
+            scope.fileread({file: changeEvent.target.files[0]});
+          });
+        });
+      }
+    };
+  }])
   .config(routeConfig);
 
 angular.element(document)

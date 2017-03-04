@@ -1,7 +1,10 @@
 <div class="container-fluid" style="height: 864px;">
-  <div class="row">
-    <div class="col-md-12">
-      <button class="btn btn-block btn-primary" ng-hide="$ctrl.hasImage()">Save</button>
+  <div class="row" ng-hide="$ctrl.hasImage()" >
+    <div class="col-md-6">
+      <input class="form-control" placeholder="Enter Screen Name" type="text" ng-model="$ctrl.name">
+    </div>
+    <div class="col-md-6">
+      <button class="btn btn-primary btn-block" ng-click="$ctrl.save()">Save</button>
     </div>
   </div>
   <div class="row">
@@ -9,7 +12,12 @@
       <h2>Screen</h2>
       <div id="holder" ng-class="{empty: $ctrl.hasImage(), hover: $ctrl.imageHover}" html5-drop on-drag-enter="$ctrl.imageHover = true"
         on-drag-leave="$ctrl.imageHover = false" ng-mouseleave="$ctrl.imageHover = false" on-drop="$ctrl.drop(event, dropZone, dragElement, data)">
-        <img ng-src="{{$ctrl.image}}" style="width: 100%;" />
+        <div ng-show="$ctrl.hasImage()" style="text-align: center;">
+          <h2>Drag Image Here</h2>
+          - or - <br/>
+          Tap to upload <input type="file" fileread="$ctrl.loadImage(file)" style="display: inline; width: 76px;">
+        </div>
+        <img ng-hide="$ctrl.hasImage()" ng-src="{{$ctrl.image}}" style="width: 100%;" />
         <div class="spinner" ng-show="$ctrl.showSpinner">
           <span class="glyphicon glyphicon-ban-circle"></span>
         </div>
