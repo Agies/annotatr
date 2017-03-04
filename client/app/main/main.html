@@ -5,12 +5,15 @@
   <div class="row">
     <div class="col-md-12" style="position: relative">
       <h4 style="text-align: center">Click <a ui-sref="editor">New Here</a> or <span class="glyphicon glyphicon-arrow-up"></span> or Choose a previous screen below to pick up where you left off <span class="glyphicon glyphicon-arrow-down"></span></h4>
-      <h1>Previous Screens:</h1>
+      <h1 style="text-align: center">We should colaborate on documenting a screenshot! Imagine the fun.</h1>
+      <div class="well well-sm" style="background-color: #000;">
+      <h3>Previous Screens:</h3>
       <ul class="nav nav-pills">
         <li role="presentation" ng-repeat="screen in $ctrl.screens">
           <a href="editor/{{screen.name}}">{{screen.name}}</a>
         </li>
       </ul>
+      </div>
     </div>
   </div>
 </div>
