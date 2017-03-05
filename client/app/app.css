@@ -91,6 +91,13 @@ img {
   border: 1px solid #ccc;
   background-color: black;
 }
+.annotation.hover {
+  border: 2px solid #ccc;
+}
+
+/*.annotation.selected {
+  border: 2px dashed #ccc;
+}*/
 
 .modal-content {
   color: #333;

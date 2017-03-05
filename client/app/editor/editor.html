@@ -31,10 +31,14 @@
         <div style="position: absolute; top: -35px; left: 40%;">
           {{$ctrl.model._id}}
         </div>
-        <div id="annotationTemplate" class="annotation" html5-drag model="$ctrl">
+        <div id="annotationTemplate" class="annotation" html5-drag>
           {{$ctrl.currentNumber}}
         </div>
-        <div class="annotation" ng-repeat="def in $ctrl.model.definitions" style="left: {{def.left}}; top: {{def.top}};" html5-drag model="def">
+        <div class="annotation" tabindex="0" ng-class="{hover: def.hover}" ng-repeat="def in $ctrl.model.definitions" style="left: {{def.left}}; top: {{def.top}};" 
+          ng-mouseover="def.hover = true" ng-mouseleave="def.hover = false" 
+          ng-click="$ctrl.select(def)"
+          ng-keyup="$ctrl.keypressed($event, def)"
+          html5-drag >
           {{def.number}}
         </div>
       </div>

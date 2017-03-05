@@ -94,17 +94,39 @@ export class EditorController {
         modal.close();
       });
   }
+
   save() {
     this.update(response => {
       this.model = response.data;
       this.$state.go('editor.id', {screenName: this.model.name});
     });
   }
+
   delete() {
     this.model.deleted = true;
     this.update(() => {
       this.$state.go('main');
     });
+  }
+
+  select(def) {
+    this.model.definitions.forEach(ele => {
+      ele.selected = false;
+    });
+    def.selected = true;
+  }
+
+  keypressed($event, def) {
+    if ($event.key == 'Delete' || $event.key == 'Backspace') {
+      var index = this.model.definitions.indexOf(def);
+      if (index > -1) {
+        this.model.definitions.splice(index, 1)
+      }
+      this.model.definitions.forEach((ele, i) => {
+        ele.number = i + 1
+      });
+      this.currentNumber = this.model.definitions.length + 1
+    }
   }
 }
 
