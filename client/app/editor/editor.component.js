@@ -110,10 +110,11 @@ export class EditorController {
   }
 
   select(def) {
-    this.model.definitions.forEach(ele => {
-      ele.selected = false;
-    });
     def.selected = true;
+  }
+
+  unselect(def) {
+    def.selected = false;
   }
 
   keypressed($event, def) {

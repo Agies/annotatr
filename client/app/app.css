@@ -82,6 +82,26 @@ img {
   left: 95%;
 }
 
+.definition.selected > .row {
+  background-color: #333;
+}
+
+.definition.selected > :first-child {
+  border-top: 2px solid #ccc;
+  border-left: 2px solid #ccc;
+  border-right: 2px solid #ccc;
+  padding-top: 10px;
+  border-radius: 5px;
+}
+
+.definition.selected> :nth-child(2) {
+  border-bottom: 2px solid #ccc;
+  border-left: 2px solid #ccc;
+  border-right: 2px solid #ccc;
+  padding-bottom: 10px;
+  border-radius: 5px;
+}
+
 .annotation {
   position: absolute; 
   min-width: 30px;
@@ -99,9 +119,9 @@ img {
   color: #222;
 }
 
-/*.annotation.selected {
-  border: 2px dashed #ccc;
-}*/
+.annotation.selected {
+  background-color: #333;
+}
 
 .modal-content {
   color: #333;
