@@ -37,8 +37,8 @@
         <div class="annotation" tabindex="0" ng-class="{selected: def.selected, hover: def.hover}" ng-repeat="def in $ctrl.model.definitions" 
           style="left: {{def.left}}; top: {{def.top}}; background-color: {{def.background}}" 
           ng-mouseover="def.hover = true" ng-mouseleave="def.hover = false" 
-          ng-focus="$ctrl.select(def)"
-          ng-blur="$ctrl.unselect(def)"
+          ng-focus="$ctrl.select(def, true)"
+          ng-blur="$ctrl.unselect(def, true)"
           ng-keyup="$ctrl.keypressed($event, def)"
           html5-drag >
           {{def.number}}

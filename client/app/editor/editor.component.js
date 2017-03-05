@@ -112,9 +112,11 @@ export class EditorController {
     });
   }
 
-  select(def) {
+  select(def, scrollIn) {
     def.selected = true;
-    document.getElementsByClassName('definition')[def.number - 1].scrollIntoView();
+    if (scrollIn) {
+      document.getElementsByClassName('definition')[def.number - 1].scrollIntoView();
+    }
   }
 
   unselect(def) {
