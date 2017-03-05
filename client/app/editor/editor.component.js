@@ -63,6 +63,9 @@ export class EditorController {
         number: this.currentNumber++
       };
       this.model.definitions.push(obj);
+      this.$timeout(() => {
+        document.getElementsByClassName('annotation')[obj.number].focus()
+      }, 1);
     }
     obj.left = `${event.clientX + parseInt(offset[0], 10)}px`;
     obj.top = `${event.clientY + parseInt(offset[1], 10)}px`;
@@ -111,6 +114,7 @@ export class EditorController {
 
   select(def) {
     def.selected = true;
+    document.getElementsByClassName('definition')[def.number - 1].scrollIntoView()
   }
 
   unselect(def) {
