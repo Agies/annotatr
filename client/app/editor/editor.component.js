@@ -64,7 +64,7 @@ export class EditorController {
       };
       this.model.definitions.push(obj);
       this.$timeout(() => {
-        document.getElementsByClassName('annotation')[obj.number].focus()
+        document.getElementsByClassName('annotation')[obj.number].focus();
       }, 1);
     }
     obj.left = `${event.clientX + parseInt(offset[0], 10)}px`;
@@ -114,7 +114,7 @@ export class EditorController {
 
   select(def) {
     def.selected = true;
-    document.getElementsByClassName('definition')[def.number - 1].scrollIntoView()
+    document.getElementsByClassName('definition')[def.number - 1].scrollIntoView();
   }
 
   unselect(def) {
@@ -125,12 +125,12 @@ export class EditorController {
     if ($event.key == 'Delete' || $event.key == 'Backspace') {
       var index = this.model.definitions.indexOf(def);
       if (index > -1) {
-        this.model.definitions.splice(index, 1)
+        this.model.definitions.splice(index, 1);
       }
       this.model.definitions.forEach((ele, i) => {
-        ele.number = i + 1
+        ele.number = i + 1;
       });
-      this.currentNumber = this.model.definitions.length + 1
+      this.currentNumber = this.model.definitions.length + 1;
     }
   }
 }
