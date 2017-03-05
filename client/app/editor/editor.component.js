@@ -82,18 +82,29 @@ export class EditorController {
     this.showSpinner = true;
   }
 
-  save() {
+  update(done) {
     var modal = this.modal.alert.spinner();
     this.$http.post('/api/screen/', this.model)
       .then(response => {
-        this.model = response.data;
-        this.$state.go('editor.id', {screenName: this.model.name});
+        done(response);
         modal.close();
       })
       .then(null, error => {
         console.error(error);
         modal.close();
       });
+  }
+  save() {
+    this.update(response => {
+      this.model = response.data;
+      this.$state.go('editor.id', {screenName: this.model.name});
+    });
+  }
+  delete() {
+    this.model.deleted = true;
+    this.update(() => {
+      this.$state.go('main');
+    });
   }
 }
 

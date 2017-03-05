@@ -4,7 +4,14 @@
       <input class="form-control" placeholder="Enter Screen Name" type="text" ng-model="$ctrl.model.name">
     </div>
     <div class="col-md-6">
-      <button class="btn btn-primary btn-block" ng-click="$ctrl.save()">Save</button>
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-primary" ng-click="$ctrl.save()">Save</button>
+        </div>
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-danger" ng-click="$ctrl.delete()">Delete</button>
+        </div>
+      </div>
     </div>
   </div>
   <div class="row">
