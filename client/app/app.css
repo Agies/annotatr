@@ -88,11 +88,15 @@ img {
   min-height: 30px;
   text-align: center;
   line-height: 28px;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
+  border-radius: 50%;
   background-color: black;
+  box-shadow: 0px 5px 7px #222;
 }
 .annotation.hover {
-  border: 2px solid #ccc;
+  border-color: #222;
+  background-color: #ccc;
+  color: #222;
 }
 
 /*.annotation.selected {
