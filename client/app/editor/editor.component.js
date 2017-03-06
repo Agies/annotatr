@@ -40,6 +40,8 @@ export class EditorController {
         .then(response => {
           if (!response.data) {
             console.error(`Sorry I cannot find ${this.$state.params.screenName}`);
+            modal.close();
+            this.$state.go('shell.main');
             return;
           }
           this.model = response.data;
