@@ -8,7 +8,9 @@ import http from 'http';
 // Setup server
 var app = express();
 var server = http.createServer(app);
+var io = require('socket.io')(server);
 require('./config/express').default(app);
+require('./components/services/websocket').setup(io);
 require('./routes').default(app);
 
 // Start server

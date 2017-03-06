@@ -24,11 +24,13 @@ export class EditorController {
   }
 
   /*@ngInject*/
-  constructor($http, $timeout, $state, Modal) {
+  constructor($http, $scope, $timeout, $state, Modal, socket) {
     this.$http = $http;
     this.$state = $state;
     this.$timeout = $timeout;
     this.modal = Modal;
+    this.io = socket;
+    this.$scope = $scope;
   }
 
   $onInit() {
@@ -42,6 +44,26 @@ export class EditorController {
           }
           this.model = response.data;
           this.currentNumber = (this.model.definitions || []).length + 1;
+          // this.$scope.$on(this.model.name, (event, data) => {
+          //   data.definitions.forEach(def => {
+          //     if (def.event == 'insert') {
+          //       this.model.definitions.push(def);
+          //     } else if (def.event == 'update') {
+          //       var toUpdate = this.model.definitions[def.number - 1];
+          //       if (toUpdate) {
+          //         toUpdate.name = def.name;
+          //         toUpdate.type = def.type;
+          //         toUpdate.top = def.top;
+          //         toUpdate.left = def.left;
+          //         toUpdate.description = def.description;
+          //       }
+          //     } else if (def.event == 'delete') {
+          //       this.deleteDefinition(def);
+          //     } else {
+          //       console.log(`I did not understand event "${def.event}".`);
+          //     }
+          //   });
+          // });
           modal.close();
         })
         .then(null, error => {
@@ -52,6 +74,7 @@ export class EditorController {
   }
 
   drop(event, dropZone, dragElement, data) {
+    var defEvent = 'update';
     var files = event.dataTransfer.files;
     if(!data && files[0]) {
       this.loadImage(files[0]);
@@ -67,9 +90,17 @@ export class EditorController {
       this.$timeout(() => {
         document.getElementsByClassName('annotation')[obj.number].focus();
       }, 1);
+      defEvent = 'insert';
     }
     obj.left = `${event.clientX + parseInt(offset[0], 10)}px`;
     obj.top = `${event.clientY + parseInt(offset[1], 10)}px`;
+    this.beginUpdate()
+      .record(obj, defEvent)
+      .sendUpdate();
+  }
+
+  beginUpdate() {
+    return new UpdateTracker(this.model.name, this.io);
   }
 
   loadImage(file) {
@@ -104,7 +135,7 @@ export class EditorController {
       this.model.thumbnail = img;
       this.update(response => {
         this.model = response.data;
-        this.$state.go('editor.id', {screenName: this.model.name});
+        this.$state.go('shell.editor.id', {screenName: this.model.name});
       });
     });
   }
@@ -125,7 +156,7 @@ export class EditorController {
   delete() {
     this.model.deleted = true;
     this.update(() => {
-      this.$state.go('main');
+      this.$state.go('shell.main');
     });
   }
 
@@ -142,15 +173,62 @@ export class EditorController {
 
   keypressed($event, def) {
     if ($event.key == 'Delete' || $event.key == 'Backspace') {
-      var index = this.model.definitions.indexOf(def);
-      if (index > -1) {
-        this.model.definitions.splice(index, 1);
-      }
-      this.model.definitions.forEach((ele, i) => {
-        ele.number = i + 1;
-      });
-      this.currentNumber = this.model.definitions.length + 1;
+      this.deleteDefinition(def);
     }
+  }
+
+  deleteDefinition(def) {
+    var tracker = this.beginUpdate();
+    tracker.record(def, 'delete');
+    var index = this.model.definitions.indexOf(def);
+    if (index > -1) {
+      this.model.definitions.splice(index, 1);
+    }
+    this.model.definitions.forEach((ele, i) => {
+      var newNumber = i + 1;
+      if (ele.number != newNumber) {
+        ele.number = newNumber;
+      }
+    });
+    this.currentNumber = this.model.definitions.length + 1;
+    tracker.sendUpdate();
+  }
+
+  updateDefinition($event, def) {
+    this.beginUpdate()
+      .record(def, 'update')
+      .sendUpdate();
+  }
+}
+
+class UpdateTracker {
+
+  constructor(name, io) {
+    this.name = name;
+    this.io = io;
+    this.definitions = [];
+  }
+
+  sendUpdate() {
+    var that = this;
+    this.io.socket.emit('screen:update', {
+      name: that.name,
+      definitions: that.definitions
+    });
+  }
+
+  record(obj, event) {
+    var def = {
+      event,
+      number: obj.number,
+      type: obj.type,
+      name: obj.name,
+      description: obj.description,
+      left: obj.left,
+      top: obj.top
+    };
+    this.definitions.push(def);
+    return this;
   }
 }
 

@@ -1,13 +1,18 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import routing from './main.routes';
+const screen = 'screen';
+
 export class MainController {
   screens = null;
 
   /*@ngInject*/
-  constructor($http, Modal) {
+  constructor($http, $scope, Modal) {
     this.$http = $http;
     this.modal = Modal;
+    $scope.$on(screen, (event, data) => {
+      this.screens = data;
+    });
   }
 
   $onInit() {

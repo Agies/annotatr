@@ -19,9 +19,11 @@ import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import modal from '../components/modal/modal.service';
 import main from './main/main.component';
+import shell from './shell/shell.component';
 import editor from './editor/editor.component';
 import constants from './app.constants';
 import util from '../components/util/util.module';
+import socket from '../services/socket.service';
 
 import './app.css';
 
@@ -88,6 +90,7 @@ function generateUniqueId() {
   currentIdNum += 1;
   return `draggable-id-${currentIdNum}`;
 }
+
 function callDragFunction(event, scope, element, func) {
   if(angular.isFunction(func)) {
     scope.$apply(() => {
@@ -95,6 +98,7 @@ function callDragFunction(event, scope, element, func) {
     });
   }
 }
+
 function callDropFunction(event, scope, element, func) {
   event.preventDefault();
 
@@ -137,7 +141,7 @@ angular.module('html5DragDrop').directive('html5Drop', function() {
 });
 
 angular.module('annotatrApp', ['html5DragDrop', ngCookies, ngResource, ngSanitize, uiRouter, uiBootstrap, navbar,
-    footer, main, modal, editor, constants, util
+    footer, shell, main, modal, editor, constants, util, socket
   ])
   .directive('fileread', [() => {
     return {

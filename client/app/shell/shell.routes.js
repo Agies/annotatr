@@ -3,8 +3,8 @@
 export default function routes($stateProvider) {
   'ngInject';
 
-  $stateProvider.state('shell.main', {
-    url: '^/',
-    template: '<main></main>'
+  $stateProvider.state('shell', {
+    abstract: true,
+    template: '<shell></shell>'
   });
 }
