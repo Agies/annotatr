@@ -33,7 +33,8 @@
     "serve-favicon": "^2.3.0",
     "shrink-ray": "^0.1.3",
     "socket.io": "^1.7.3",
-    "sprint-js": "~0.1.0"
+    "sprint-js": "~0.1.0",
+    "uuid-lib": "0.0.6"
   },
   "devDependencies": {
     "angular-mocks": "~1.6.0",

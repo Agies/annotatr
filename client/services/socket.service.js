@@ -4,7 +4,7 @@ const screenUpdate = 'screen:update';
 const screen = 'screen';
 
 /*@ngInject*/
-export function socketService($rootScope) {
+export function socketService($rootScope, $timeout) {
   var socket = io.connect('/');
   socket.on('connect', () => {
     console.log('socket connected');
@@ -20,10 +20,14 @@ export function socketService($rootScope) {
   });
   socket.on(screenUpdate, data => {
     console.log(data);
-    $rootScope.$broadcast(data.name, data);
+    $timeout(() => {
+      $rootScope.$broadcast(data.name, data);
+    }, 1);
   });
   socket.on(screen, data => {
-    $rootScope.$broadcast(screen, data);
+    $timeout(() => {
+      $rootScope.$broadcast(screen, data);
+    }, 1);
   });
   var service = {
     events: {

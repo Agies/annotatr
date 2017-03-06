@@ -1,9 +1,14 @@
 <div class="container-fluid" style="height: 864px;">
   <div class="row" ng-hide="$ctrl.hasImage()" >
-    <div class="col-md-6">
-      <input class="form-control" placeholder="Enter Screen Name" type="text" ng-model="$ctrl.model.name">
+    <div class="col-sm-6">
+      <div class="input-group">
+        <input class="form-control" placeholder="Enter Screen Name" type="text" ng-model="$ctrl.model.name" >
+        <span class="input-group-addon">
+          <label><input type="checkbox" ng-model="$ctrl.model.deleted" style="margin-right: 5px">Deleted</label>
+        </span>
+      </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-sm-6">
       <div class="btn-group btn-group-justified" role="group" aria-label="...">
         <div class="btn-group" role="group">
           <button type="button" class="btn btn-primary" ng-click="$ctrl.save()">Save</button>
