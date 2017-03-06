@@ -2,7 +2,8 @@ import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import routing from './editor.routes';
 const templateName = 'annotationTemplate';
-
+const thumbnailWidth = 135;
+const thumbnailHeight = 240;
 export class EditorController {
   currentNumber = 1;
   imageHover = false;
@@ -99,10 +100,26 @@ export class EditorController {
   }
 
   save() {
-    this.update(response => {
-      this.model = response.data;
-      this.$state.go('editor.id', {screenName: this.model.name});
+    this.resizeImage(img => {
+      this.model.thumbnail = img;
+      this.update(response => {
+        this.model = response.data;
+        this.$state.go('editor.id', {screenName: this.model.name});
+      });
     });
+  }
+
+  resizeImage(done) {
+    var img = new Image();
+    img.onload = () => {
+      var canvas = document.createElement('canvas');
+      var ctx = canvas.getContext('2d');
+      canvas.width = thumbnailWidth;
+      canvas.height = thumbnailHeight;
+      ctx.drawImage(img, 0, 0, thumbnailWidth, thumbnailHeight);
+      done(canvas.toDataURL());
+    };
+    img.src = this.model.image;
   }
 
   delete() {

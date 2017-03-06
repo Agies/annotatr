@@ -8,7 +8,8 @@ var router = express.Router();
 router.get('/', (req, res) => {
   data.find({deleted: { $ne: true }}, {
     _id: 1,
-    name: 1
+    name: 1,
+    thumbnail: 1
   }).then(result => {
     res.json(result);
   })

@@ -154,6 +154,25 @@ img {
   font-size: 400%;
 }
 
+.panel-default {
+  background: #222;
+  text-align: center;
+}
+
+.panel-default > .panel-heading {
+  background: #111;
+  color: white;
+}
+
+.panel-heading {
+}
+
+.panel-body {
+    padding: 0px;
+    width: 135px;
+    height: 240px;
+}
+
 *[draggable=true] {
   -moz-user-select:none;
   user-select:none;
