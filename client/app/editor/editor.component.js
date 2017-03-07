@@ -240,11 +240,11 @@ class UpdateTracker {
   }
 
   sendUpdate() {
-    var that = this;
-    this.io.socket.emit('screen:update', {
-      name: that.name,
-      definitions: that.definitions
-    });
+    // var that = this;
+    // this.io.socket.emit('screen:update', {
+    //   name: that.name,
+    //   definitions: that.definitions
+    // });
   }
 
   record(obj, event) {
