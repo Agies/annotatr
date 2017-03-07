@@ -94,8 +94,22 @@ export class EditorController {
       }, 1);
       defEvent = 'insert';
     }
-    obj.left = `${event.clientX + parseInt(offset[0], 10)}px`;
-    obj.top = `${event.clientY + parseInt(offset[1], 10)}px`;
+    var x = event.clientX + parseInt(offset[0], 10);
+    if (x < 0) {
+      x = 0;
+    }
+    if (x > 450) {
+      x = 450;
+    }
+    var y = event.clientY + parseInt(offset[1], 10);
+    if (y < 0) {
+      y = 0;
+    }
+    if (y > 800) {
+      y = 800;
+    }
+    obj.left = `${x}px`;
+    obj.top = `${y}px`;
     this.beginUpdate()
       .record(obj, defEvent)
       .sendUpdate();
@@ -164,6 +178,20 @@ export class EditorController {
 
   select(def, scrollIn) {
     def.selected = true;
+    var x = parseInt(def.left.slice(0, -2), 10);
+    if (x < 0) {
+      def.left = '0px';
+    }
+    if (x > 450) {
+      def.left = '450px';
+    }
+    var y = parseInt(def.top.slice(0, -2), 10);
+    if (y < 0) {
+      def.top = '0px';
+    }
+    if (y > 800) {
+      def.top = '800px';
+    }
     if (scrollIn) {
       document.getElementsByClassName('definition')[def.number - 1].scrollIntoView();
     }

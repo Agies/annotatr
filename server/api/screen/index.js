@@ -24,8 +24,8 @@ router.get('/:screenName', (req, res) => {
 router.post('/', (req, res) => {
   data.find({ name: req.body.name })
   .then(previous => {
-    if (!req.body._id && previous[0] || (previous[0] && req.body._id != previous[0]._id)) {
-      req.body.name += '-' + Uuid.create().value;
+    if (!req.body._id && previous[0] || previous[0] && req.body._id != previous[0]._id) {
+      req.body.name += `- ${Uuid.create().value}`;
     }
     data.save(req.body)
       .then(() => data.find({
