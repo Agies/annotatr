@@ -1,7 +1,7 @@
 'use strict';
 
 import angular from 'angular';
-// import ngAnimate from 'angular-animate';
+import ngAnimate from 'angular-animate';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
@@ -34,6 +34,7 @@ angular.module('html5DragDrop').directive('html5Drag', ['$log', function($log) {
     restrict: 'A',
     scope: {
       dragData: '=',
+      dragTemplate: '=',
       transferType: '=',
       transferData: '=',
       onDragStart: '&',
@@ -55,14 +56,16 @@ angular.module('html5DragDrop').directive('html5Drag', ['$log', function($log) {
 
       // Add attributes to the element to make it draggable.
       element.attr('draggable', true);
-      element.data('dragData', scope.dragData);
 
       element.on('dragstart', function(event) {
         var style = window.getComputedStyle(element[0], null);
-        var offsetData = `${parseInt(style.getPropertyValue('left'), 10) - event.clientX}, ${parseInt(style.getPropertyValue('top'), 10) - event.clientY}`;
-        element.data('dragData', offsetData);
-        var dataTransfer = event.dataTransfer || event.originalEvent.dataTransfer;
-        dataTransfer.setData(scope.transferType, scope.transferData);
+        var data = {
+          x: parseInt(style.getPropertyValue('left'), 10) - event.clientX,
+          y: parseInt(style.getPropertyValue('top'), 10) - event.clientY,
+          type: attrs.dragData,
+          template: attrs.dragTemplate
+        };
+        scope.$parent.data = data;
         angular.element(document.getElementsByClassName('dragging')).removeClass('dragging');
         element.addClass('dragging');
 
@@ -106,7 +109,7 @@ function callDropFunction(event, scope, element, func) {
     var draggedNode = document.getElementsByClassName('dragging')[0];
     var draggedEl = angular.element(draggedNode);
     scope.$apply(() => {
-      func({event, dropZone: element, dragElement: draggedEl, data: draggedEl.data('dragData')});
+      func({event, dropZone: element, dragElement: draggedEl, data: draggedEl.scope().data});
     });
   }
 }
@@ -140,7 +143,7 @@ angular.module('html5DragDrop').directive('html5Drop', function() {
   };
 });
 
-angular.module('annotatrApp', ['html5DragDrop', ngCookies, ngResource, ngSanitize, uiRouter, uiBootstrap, navbar,
+angular.module('annotatrApp', ['html5DragDrop', ngCookies, ngResource, ngSanitize, ngAnimate, uiRouter, uiBootstrap, navbar,
     footer, shell, main, modal, editor, constants, util, socket
   ])
   .directive('fileread', [() => {

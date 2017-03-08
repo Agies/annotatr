@@ -1,7 +1,6 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import routing from './editor.routes';
-const templateName = 'annotationTemplate';
 const thumbnailWidth = 135;
 const thumbnailHeight = 240;
 export class EditorController {
@@ -82,26 +81,28 @@ export class EditorController {
       this.loadImage(files[0]);
       return;
     }
-    var offset = data.split(',');
+    if (!dragElement) return;
+
     var obj = dragElement.scope().def;
-    if(dragElement[0].id == templateName) {
+    if(data.template) {
       obj = {
-        number: this.currentNumber++
+        number: this.currentNumber++,
+        type: data.type
       };
       this.model.definitions.push(obj);
       this.$timeout(() => {
-        document.getElementsByClassName('annotation')[obj.number].focus();
+        document.getElementById(`annotation-${obj.number}`).focus();
       }, 1);
       defEvent = 'insert';
     }
-    var x = event.clientX + parseInt(offset[0], 10);
+    var x = event.clientX + data.x;
     if (x < 0) {
       x = 0;
     }
     if (x > 450) {
       x = 450;
     }
-    var y = event.clientY + parseInt(offset[1], 10);
+    var y = event.clientY + data.y;
     if (y < 0) {
       y = 0;
     }
@@ -193,7 +194,7 @@ export class EditorController {
       def.top = '800px';
     }
     if (scrollIn) {
-      document.getElementsByClassName('definition')[def.number - 1].scrollIntoView();
+      document.getElementById(`definition-${def.number}`).scrollIntoView();
     }
   }
 

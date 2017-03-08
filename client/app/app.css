@@ -13,6 +13,7 @@
 }
 
 @import '~font-awesome/css/font-awesome.css';
+@import 'animate.css';
 
 /**
  *Font Awesome Fonts
@@ -97,9 +98,35 @@ img {
   border-color: #333;
 }
 
-#annotationTemplate {
+.annotation-label {
+  position: absolute;
+  text-align: center;
+  top: -18px;
+  font-size: 75%;
+  width: 30px;
+}
+
+.annotation.template {
   top: -50px; 
+}
+
+.template.config {
+  left: 75%;
+}
+
+.template.omni {
+  left: 85%;
+}
+
+.template.data {
   left: 95%;
+}
+
+#screenId {
+  position: absolute;
+  font-size: 75%;
+  top: -43px;
+  left: 48%;
 }
 
 .definition.selected > .row {
@@ -114,7 +141,7 @@ img {
   border-radius: 5px;
 }
 
-.definition.selected> :nth-child(2) {
+.definition.selected > :nth-child(2) {
   border-bottom: 2px solid #ccc;
   border-left: 2px solid #ccc;
   border-right: 2px solid #ccc;
@@ -130,9 +157,29 @@ img {
   line-height: 28px;
   border: 2px solid #ccc;
   border-radius: 50%;
-  background-color: black;
   box-shadow: 0px 5px 7px #222;
 }
+
+.annotation.ng-leave {
+  animation: fadeOut .5s;
+}
+
+.definition.ng-leave {
+  animation: fadeOut .5s;
+}
+
+.annotation.data {
+  background-color: black;
+}
+
+.annotation.omni {
+  background-color: #337ab7;
+}
+
+.annotation.config {
+  background-color: #f0ad4e;
+}
+
 .annotation.hover {
   border-color: #222;
   background-color: #ccc;
@@ -140,7 +187,8 @@ img {
 }
 
 .annotation.selected {
-  background-color: #333;
+  background-color: #ccc;
+  color: #222;
 }
 
 .modal-content {
@@ -182,6 +230,7 @@ img {
 
 /* Component styles are injected through gulp */
 /* inject:css */
+@import 'animate.css';
 @import 'main/main.css';
 @import '../components/footer/footer.css';
 @import '../components/modal/modal.css';

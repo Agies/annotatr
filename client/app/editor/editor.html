@@ -33,13 +33,29 @@
         <div class="spinner" ng-show="$ctrl.showSpinner">
           <span class="glyphicon glyphicon-ban-circle"></span>
         </div>
-        <div style="position: absolute; top: -35px; left: 40%;">
-          {{$ctrl.model._id}}
+        <div id="screenId">
+          <div>Drag the annotations <span class="fa fa-arrow-right" /></div>
+          <div>Onto the image <span class="fa fa-arrow-down" /></div>
         </div>
-        <div id="annotationTemplate" class="annotation" html5-drag>
+        <div class="annotation template config" drag-data="config" drag-template="true" html5-drag>
           {{$ctrl.currentNumber}}
         </div>
-        <div class="annotation" tabindex="0" ng-class="{selected: def.selected, hover: def.hover}" ng-repeat="def in $ctrl.model.definitions" 
+        <div class="annotation-label template config">
+          config
+        </div>
+        <div class="annotation template omni" drag-data="omni" drag-template="true" html5-drag>
+          {{$ctrl.currentNumber}}
+        </div>
+        <div class="annotation-label template omni">
+          omni
+        </div>
+        <div class="annotation template data" drag-data="data" drag-template="true" html5-drag>
+          {{$ctrl.currentNumber}}
+        </div>
+        <div class="annotation-label template data">
+          data
+        </div>
+        <div id="annotation-{{def.number}}" class="animated fadeIn annotation {{def.type}}" tabindex="0" ng-class="{selected: def.selected, hover: def.hover}" ng-repeat="def in $ctrl.model.definitions" 
           style="left: {{def.left}}; top: {{def.top}}; background-color: {{def.background}}" 
           ng-mouseover="def.hover = true" ng-mouseleave="def.hover = false" 
           ng-focus="$ctrl.select(def, true)"
@@ -59,7 +75,7 @@
           <hr>
         </div>
         <form style="max-height: 760px; overflow-x: hidden; overflow-y: auto; padding: 0px 20px 0px 20px;">
-        <div class="definition" ng-class="{selected: def.selected}" ng-repeat="def in $ctrl.model.definitions">
+        <div id="definition-{{def.number}}" class="animated fadeIn definition" ng-class="{selected: def.selected}" ng-repeat="def in $ctrl.model.definitions">
           <div class="row">
             <div class="col-xs-2 col-sm-1 col-md-2 col-lg-1"><label class="form-control" >{{def.number}}</label></div>
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><input class="form-control" type="text" placeholder="type" ng-model="def.type" ng-focus="$ctrl.select(def)" ng-blur="$ctrl.unselect(def)" ng-keyup="$ctrl.updateDefinition($event, def)"></div>
