@@ -71,10 +71,6 @@ body {
   border: solid 1px #222;
 }
 
-.table-hover > tbody > tr:hover {
-  color: #222;
-}
-
 input {
   color: #111;
 }
@@ -149,6 +145,23 @@ img {
   border-radius: 5px;
 }
 
+.definition label {
+  color: white;
+  border: 2px solid #ccc;
+}
+
+.definition.config label {
+  background-color: #f0ad4e;
+}
+
+.definition.data label {
+  background-color: black;
+}
+
+.definition.omni label {
+  background-color: #337ab7;
+}
+
 .annotation {
   position: absolute; 
   min-width: 30px;
@@ -202,6 +215,10 @@ img {
   font-size: 400%;
 }
 
+li.ng-enter {
+  animation: fadeIn 1s;
+}
+
 .panel-default {
   background: #222;
   text-align: center;
@@ -210,9 +227,6 @@ img {
 .panel-default > .panel-heading {
   background: #111;
   color: white;
-}
-
-.panel-heading {
 }
 
 .panel-body {
