@@ -109,7 +109,8 @@ function callDropFunction(event, scope, element, func) {
     var draggedNode = document.getElementsByClassName('dragging')[0];
     var draggedEl = angular.element(draggedNode);
     scope.$apply(() => {
-      func({event, dropZone: element, dragElement: draggedEl, data: draggedEl.scope().data});
+      var data = (draggedEl.scope() || {}).data;
+      func({event, dropZone: element, dragElement: draggedEl, data});
     });
   }
 }
