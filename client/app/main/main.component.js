@@ -40,10 +40,9 @@ export class MainController {
       .then(() => {
         if (loadMore) {
           this.collectScreens(count + 1, collector, modal);
-        } else {
-          this.screens = collector;
-          modal.close();
         }
+        this.screens = collector;
+        modal.close();
       });
   }
 

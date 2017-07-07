@@ -20,7 +20,7 @@ router.get('/:page?', (req, res) => {
     var start = page * pageSize;
     var end = start + pageSize;
     var response = result.slice(start, end);
-    console.log("returning", response.length, "screens");
+    console.log('returning', response.length, 'screens');
     res.json({
       result: response,
       count: result.length,
