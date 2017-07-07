@@ -6,8 +6,9 @@ var io = require('../../components/services/websocket');
 var Uuid = require('uuid-lib');
 var data = new DB('screen');
 var router = express.Router();
+var pageSize = 50;
 
-router.get('/', (req, res) => {
+router.get('/:page?', (req, res) => {
   getAll()
   .then(result => {
     result.sort((a, b) => {
@@ -15,7 +16,15 @@ router.get('/', (req, res) => {
       if (!b.lastUpdate) return -1;
       return a.lastUpdate > b.lastUpdate ? -1 : 1;
     });
-    res.json(result);
+    var page = req.params.page || 0;
+    var start = page * pageSize;
+    var end = start + pageSize;
+    var response = result.slice(start, end);
+    console.log("returning", response.length, "screens");
+    res.json({
+      result: response,
+      count: result.length,
+    });
   })
   .then(null, error => handleError(error, res));
 });
@@ -25,7 +34,7 @@ router.get('/component/:value', (req, res) => {
     var map = [];
     result.forEach(r => {
       var comp = r.component;
-      if (!comp || map.indexOf(comp) > 0 || comp.indexOf(req.body.value) == 0) {
+      if (!comp || map.indexOf(comp) > 0 || comp.indexOf(req.params.value || "") == 0) {
         return;
       }
       map.push(comp);

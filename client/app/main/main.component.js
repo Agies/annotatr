@@ -27,19 +27,30 @@ export class MainController {
     window.localStorage.setItem('view', view);
   }
 
-  $onInit() {
-    this.changeView(window.localStorage.getItem('view') || 'card');
-    var modal = this.modal.alert.spinner();
-    this.$http.get('/api/screen')
+  collectScreens(count, collector, modal) {
+    var loadMore = false;
+    this.$http.get('/api/screen/' + count)
       .then(response => {
-        this.screens = response.data;
+        collector = collector.concat(response.data.result);
+        loadMore = collector.length != response.data.count;
       })
       .then(null, error => {
         console.error(error);
       })
       .then(() => {
-        modal.close();
+        if (loadMore) {
+          this.collectScreens(count + 1, collector, modal);
+        } else {
+          this.screens = collector;
+          modal.close();
+        }
       });
+  }
+
+  $onInit() {
+    this.changeView(window.localStorage.getItem('view') || 'card');
+    var modal = this.modal.alert.spinner();
+    this.collectScreens(0, [], modal);
   }
 }
 
