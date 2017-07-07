@@ -10,7 +10,27 @@ var router = express.Router();
 router.get('/', (req, res) => {
   getAll()
   .then(result => {
+    result.sort((a, b) => {
+      if (!a.lastUpdate) return 1;
+      if (!b.lastUpdate) return -1;
+      return a.lastUpdate > b.lastUpdate ? -1 : 1;
+    });
     res.json(result);
+  })
+  .then(null, error => handleError(error, res));
+});
+router.get('/component/:value', (req, res) => {
+  getAll()
+  .then(result => {
+    var map = [];
+    result.forEach(r => {
+      var comp = r.component;
+      if (!comp || map.indexOf(comp) > 0 || comp.indexOf(req.body.value) == 0) {
+        return;
+      }
+      map.push(comp);
+    });
+    res.json(map);
   })
   .then(null, error => handleError(error, res));
 });
@@ -54,7 +74,9 @@ function getAll() {
   return data.find({deleted: { $ne: true }}, {
     _id: 1,
     name: 1,
-    thumbnail: 1
+    thumbnail: 1,
+    component: 1,
+    lastUpdate: 1
   });
 }
 

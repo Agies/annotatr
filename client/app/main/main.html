@@ -4,22 +4,54 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12" style="position: relative">
-      <h4 style="text-align: center">Click <a ui-sref="shell.editor.new">New Here</a> or <span class="glyphicon glyphicon-arrow-up"></span> or Choose a previous screen below to pick up where you left off <span class="glyphicon glyphicon-arrow-down"></span></h4>
+      <h4 style="text-align: center">Click <a ui-sref="shell.editor.new">New Here</a> or <span class="glyphicon glyphicon-arrow-up"></span> or Choose a
+        previous screen below to pick up where you left off <span class="glyphicon glyphicon-arrow-down"></span></h4>
       <h1 style="text-align: center">We should colaborate on documenting a screenshot! Imagine the fun.</h1>
       <div class="well well-sm" style="background-color: #000;">
-      <h3>Previous Screens:</h3>
-      <ul class="nav nav-pills">
-        <li role="presentation" ng-repeat="screen in $ctrl.screens">
-          <a href="editor/{{screen.name}}">
-          <div class="panel panel-default">
-            <div class="panel-heading">{{screen.name}}</div>
-            <div class="panel-body">
-              <img ng-src="{{screen.thumbnail}}" style="width: 100%" />
-            </div>
+        <div class="row">
+          <div class="col-md-3">
+            <h3>Previous Screens:</h3>
           </div>
-          </a>
-        </li>
-      </ul>
+          <div class="col-md-9">
+            <ul class="nav nav-pills">
+              <li role="presentation" ng-class="{active: $ctrl.card}" ng-click="$ctrl.changeView('card')"><a>Card</a></li>
+              <li role="presentation" ng-class="{active: $ctrl.list}" ng-click="$ctrl.changeView('list')"><a>List</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <input class="form-control" type="search" placeholder="What are you looking for?" ng-model="$ctrl.search"  />
+          </div>
+        </div>
+        <ul class="nav nav-pills" ng-show="$ctrl.card">
+          <li role="presentation" ng-repeat="screen in $ctrl.screens | filter:$ctrl.search">
+            <a href="editor/{{screen.name}}">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h5 style="margin: 0px;">{{screen.name}} <br />
+                    <span class="small bold">{{screen.component || "unknown"}}</span>
+                  </h5>
+                </div>
+                <div class="panel-body">
+                  <img ng-src="{{screen.thumbnail}}" style="width: 100%" />
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <table class="table" ng-show="$ctrl.list">
+          <tr>
+            <th>Name</th>
+            <th>Component</th>
+            <th>Last Updated</th>
+          </tr>
+          <tr ng-repeat="screen in $ctrl.screens | filter:$ctrl.search">
+            <td><a href="editor/{{screen.name}}">{{screen.name}}</a></td>
+            <td>{{screen.component}}</td>
+            <td>{{screen.lastUpdate}}</td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>

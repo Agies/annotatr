@@ -40,6 +40,7 @@ export class DB {
         var promise = null;
         if (data._id) {
           data._id = new ObjectId(data._id);
+          data.lastUpdate = new Date();
           promise = collection.updateOne({
             _id: data._id
           }, {

@@ -5,7 +5,8 @@ const screen = 'screen';
 
 export class MainController {
   screens = null;
-
+  card = true;
+  list = false;
   /*@ngInject*/
   constructor($http, $scope, Modal) {
     this.$http = $http;
@@ -15,7 +16,19 @@ export class MainController {
     });
   }
 
+  changeView(view) {
+    if (view == 'card') {
+      this.card = true;
+      this.list = false;
+    } else {
+      this.card = false;
+      this.list = true;
+    }
+    window.localStorage.setItem('view', view);
+  }
+
   $onInit() {
+    this.changeView(window.localStorage.getItem('view') || 'card');
     var modal = this.modal.alert.spinner();
     this.$http.get('/api/screen')
       .then(response => {

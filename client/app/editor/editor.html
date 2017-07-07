@@ -8,7 +8,13 @@
         </span>
       </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-3">
+      <input class="form-control" placeholder="Enter A Component" type="text" ng-model="$ctrl.model.component" uib-typeahead="component for component in $ctrl.getComponents($viewValue)" typeahead-no-results="noResults">
+      <div ng-show="noResults">
+        <i class="glyphicon glyphicon-remove"></i> No Results Found
+      </div>
+    </div>
+    <div class="col-sm-3">
       <div class="btn-group btn-group-justified" role="group" aria-label="...">
         <div class="btn-group" role="group">
           <button type="button" class="btn btn-primary" ng-click="$ctrl.save()">Save</button>

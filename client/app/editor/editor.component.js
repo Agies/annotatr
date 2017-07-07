@@ -230,6 +230,14 @@ export class EditorController {
       .record(def, 'update')
       .sendUpdate();
   }
+
+  getComponents(value) {
+    return this.$http
+      .get(`/api/screen/component/${value}`)
+      .then(r => {
+        return r.data;
+      });
+  }
 }
 
 class UpdateTracker {
