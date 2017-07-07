@@ -8,7 +8,7 @@ var data = new DB('screen');
 var router = express.Router();
 var pageSize = 50;
 
-router.get('/:page?', (req, res) => {
+router.get('/', (req, res) => {
   getAll()
   .then(result => {
     result.sort((a, b) => {
@@ -16,7 +16,7 @@ router.get('/:page?', (req, res) => {
       if (!b.lastUpdate) return -1;
       return a.lastUpdate > b.lastUpdate ? -1 : 1;
     });
-    var page = req.params.page || 0;
+    var page = req.query.page || 0;
     var start = page * pageSize;
     var end = start + pageSize;
     var response = result.slice(start, end);

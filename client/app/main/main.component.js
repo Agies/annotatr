@@ -29,7 +29,7 @@ export class MainController {
 
   collectScreens(count, collector, modal) {
     var loadMore = false;
-    this.$http.get('/api/screen/' + count)
+    this.$http.get('/api/screen?page=' + count)
       .then(response => {
         collector = collector.concat(response.data.result);
         loadMore = collector.length != response.data.count;
