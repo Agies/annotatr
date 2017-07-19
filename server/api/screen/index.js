@@ -34,7 +34,7 @@ router.get('/component/:value', (req, res) => {
     var map = [];
     result.forEach(r => {
       var comp = r.component;
-      if (!comp || map.indexOf(comp) > 0 || comp.indexOf(req.params.value || "") == 0) {
+      if (!comp || map.indexOf(comp) > 0 || comp.indexOf(req.params.value || '') == 0) {
         return;
       }
       map.push(comp);

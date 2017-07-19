@@ -49,6 +49,7 @@ export class DB {
             w: 1
           });
         } else {
+          data._id = new ObjectId();
           promise = collection.insertOne(data, {
             w: 1
           });
